@@ -1,9 +1,23 @@
 //aceder a la libreria express
 const express=require("express")
+//aceder a la libreria cors
+const cors=require("cors")
 //crear objetos de la clase express
 const app=express()
 //asignar puerto
 const puerto=3000
+
+// Habilitar CORS usando el middleware oficial
+app.use(cors())
+
+// Middleware CORS manual (por si la librería no está aplicando los headers)
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+    next()
+})
+
 //datos en memoria
 //arreglo
 let cursos=[
@@ -28,7 +42,7 @@ let cursos=[
 
 ]
 //generar endpoint
-app.get("/cursos/lista",(resquet,response)=>{
+app.get("/api/cursos/lista",(resquet,response)=>{
     response.json(cursos)
 })
 
